@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
 /**
  *  路由接口

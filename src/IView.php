@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
 use swiftphp\http\Context;
 use swiftphp\web\IController;

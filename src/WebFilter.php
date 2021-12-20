@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
 use swiftphp\http\IFilter;
 use swiftphp\config\IConfigurable;
@@ -18,7 +18,7 @@ use swiftphp\web\internal\out\Base;
  *
  */
 class WebFilter implements IFilter,IConfigurable
-{    
+{
     /**
      * 是否调试模式(此属性会传递给控制器)
      * @var string
@@ -30,7 +30,7 @@ class WebFilter implements IFilter,IConfigurable
      * @var string
      */
     private $m_runtimeDir;
-    
+
     /**
      * 视图引擎(此属性会传递给控制器)
      * @var IView

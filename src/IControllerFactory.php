@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
 /**
  * 控制器工厂接口

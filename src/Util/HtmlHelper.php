@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\util;
+namespace Yauphp\Web\Util;
 
 use swiftphp\common\util\ObjectUtil;
 

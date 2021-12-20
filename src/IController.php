@@ -1,8 +1,7 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
-use swiftphp\http\Context;
-use swiftphp\web\IView;
+use Yauphp\Http\Context;
 
 /**
  * 控制器接口

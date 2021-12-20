@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web;
+namespace Yauphp\Web;
 
 /**
  * 添加参数模式枚举
