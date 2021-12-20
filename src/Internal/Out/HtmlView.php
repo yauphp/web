@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal\out;
+namespace Yauphp\Web\Internal\Out;
 
 use swiftphp\http\IOutput;
 use swiftphp\web\ITag;
@@ -132,7 +132,7 @@ class HtmlView extends View implements IOutput
             }
         }else{
             //重新处理,并写到缓存文件
-            $view=$this->loadView($view,dirname($viewFile),$this->m_taglibs,$customParams);            
+            $view=$this->loadView($view,dirname($viewFile),$this->m_taglibs,$customParams);
             if(!file_exists($this->getRuntimeDir())){
                 mkdir($this->getRuntimeDir(),755);
             }

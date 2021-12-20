@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal\tags;
+namespace Yauphp\Web\Internal\Tags;
 
 use swiftphp\common\util\Convert;
 use swiftphp\web\util\HtmlHelper;

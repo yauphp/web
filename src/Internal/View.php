@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal;
+namespace Yauphp\Web\Internal;
 
 use swiftphp\config\IConfigurable;
 use swiftphp\config\IConfiguration;

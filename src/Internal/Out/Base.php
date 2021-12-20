@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal\out;
+namespace Yauphp\Web\Internal\Out;
 
 use swiftphp\http\IOutput;
 

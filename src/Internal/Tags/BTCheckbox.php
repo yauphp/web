@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal\tags;
+namespace Yauphp\Web\Internal\Tags;
 
 /**
  * Bootstrap样式的复选框列表标签

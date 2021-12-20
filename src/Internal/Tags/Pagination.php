@@ -1,5 +1,5 @@
 <?php
-namespace swiftphp\web\internal\tags;
+namespace Yauphp\Web\Internal\Tags;
 
 /**
  * 分页控制标签
