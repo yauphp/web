@@ -9,6 +9,7 @@ use Yauphp\Http\Context;
 use Yauphp\Http\FilterChain;
 use Yauphp\Web\Internal\Out\Base;
 use Yauphp\Web\Internal\Out\HtmlView;
+use Yauphp\Http\IOutput;
 
 /**
  * MVC模型入口,Web过滤器

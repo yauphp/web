@@ -122,7 +122,7 @@ class Iterator extends TagBase
         $showTree=strtolower($this->showTree);
         if($showTree=="true"||$showTree=="1"){
             foreach ($this->dataSource as $item){
-                if(Convert::getFieldValue($item, $this->parentKey,true)==$this->rootKey){
+                if(ConvertUtils::getFieldValue($item, $this->parentKey,true)==$this->rootKey){
                     $data[]=$item;
                 }
             }

@@ -1,6 +1,8 @@
 <?php
 namespace Yauphp\Web\Util;
 
+use Yauphp\Common\Util\ObjectUtils;
+
 /**
  * HTML相关帮助类
  * @author Tomix
@@ -84,7 +86,7 @@ class HtmlHelper
             }
         }else{
             //getter取值
-            $getter=ObjectUtil::getGetter($inputParam, $paramKey);
+            $getter=ObjectUtils::getGetter($inputParam, $paramKey);
             if($getter!=null){
                 $paramValue = $inputParam->$getter();
                 return true;
