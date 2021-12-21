@@ -15,7 +15,6 @@ use Yauphp\Web\Internal\Out\HtmlView;
 use Yauphp\Http\IOutput;
 use Yauphp\Http\Response;
 use Yauphp\Http\Request;
-use Yauphp\Common\IO\File;
 
 /**
  * 控制器内置基本类型
@@ -41,12 +40,6 @@ class Controller implements IController, IConfigurable
      * @var string
      */
     private $m_areaName;
-
-    /**
-     * 区域前缀
-     * @var string
-     */
-    private $m_areaPrefix;
 
     /**
      * 默认视图文件
@@ -89,12 +82,6 @@ class Controller implements IController, IConfigurable
      * @var string
      */
     private $m_debug=false;
-
-    /**
-     * 运行时目录
-     * @var string
-     */
-    private $m_runtimeDir;
 
     /**
      * 输出模型
@@ -148,6 +135,7 @@ class Controller implements IController, IConfigurable
         $this->m_context=$value;
     }
 
+
     /**
      * 区域名称
      * @param string $value
@@ -157,14 +145,6 @@ class Controller implements IController, IConfigurable
         $this->m_areaName=$value;
     }
 
-    /**
-     * 区域前缀
-     * @param string $value
-     */
-    public function setAreaPrefix($value)
-    {
-        $this->m_areaPrefix=$value;
-    }
 
     /**
      * 视图文件
@@ -203,30 +183,11 @@ class Controller implements IController, IConfigurable
     }
 
     /**
-     * 获取区域前缀
-     * @return string
-     */
-    public function getAreaPrefix()
-    {
-        //return $this->m_areaPrefix;
-        return $this->m_areaPrefix=="/"?"":$this->m_areaPrefix;
-    }
-
-    /**
      * 获取当前激活的操作名
      */
     public function getActionName()
     {
         return $this->m_action;
-    }
-
-    /**
-     * 设置运行时目录
-     * @param string $value
-     */
-    public function setRuntimeDir($value)
-    {
-        $this->m_runtimeDir=$value;
     }
 
     /**
@@ -282,7 +243,7 @@ class Controller implements IController, IConfigurable
      * @param $value 参数值
      * @return void
      */
-    public function addParameter($name,$value,$paramMode=0)
+    public function addParameter($name, $value, $paramMode=0)
     {
         if($paramMode==ParamMode::$view){
             $this->m_viewParams[$name]=$value;
@@ -438,7 +399,6 @@ class Controller implements IController, IConfigurable
             $this->m_viewEngine=new HtmlView();
             $this->m_viewEngine->setConfiguration($this->m_config);
             $this->m_viewEngine->setDebug($this->m_debug);
-            $this->m_viewEngine->setRuntimeDir($this->getRuntimeDir());
         }
         $this->m_viewEngine->setContext($this->m_context);
         $this->m_viewEngine->setTagParams($this->m_tagParams);
@@ -446,23 +406,6 @@ class Controller implements IController, IConfigurable
         $this->m_viewEngine->setController($this);
         $this->m_viewEngine->setViewFile($viewFile);
         return $this->m_viewEngine;
-    }
-
-
-    /**
-     * 运行时目录
-     * @return string
-     */
-    private function getRuntimeDir()
-    {
-        $runtimeDir=$this->m_runtimeDir;
-        if(empty($runtimeDir)){
-            $runtimeDir=rtrim($this->m_config->getBaseDir(),"/")."/_runtime";
-        }
-        if(!file_exists($runtimeDir)){
-            File::createDir($runtimeDir);
-        }
-        return $runtimeDir;
     }
 }
 

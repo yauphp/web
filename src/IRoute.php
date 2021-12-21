@@ -14,11 +14,6 @@ interface IRoute
     function getAreaName();
 
     /**
-     * 区域前缀
-     */
-    function getAreaPrefix();
-
-    /**
      * 控制器名称
      */
     function getControllerName();
@@ -37,7 +32,5 @@ interface IRoute
      * 初始化参数
      */
     function getInitParams();
-
-
 }
 

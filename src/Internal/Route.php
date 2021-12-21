@@ -21,11 +21,6 @@ class Route implements IRoute, IConfigurable
     private $m_areaName;
 
     /**
-     * 区域前缀
-     */
-    private $m_areaPrefix;
-
-    /**
      * 当前控制器名称
      * @var string
      */
@@ -146,14 +141,6 @@ class Route implements IRoute, IConfigurable
     }
 
     /**
-     * 区域前缀
-     */
-    public function getAreaPrefix()
-    {
-        return $this->m_areaPrefix;
-    }
-
-    /**
      * 控制器名称
      */
     public function getControllerName()
@@ -197,14 +184,13 @@ class Route implements IRoute, IConfigurable
         }
         foreach($config as $areaName=>$area){
             $namespace=trim($area["namespace"],"\\");
-            $prefix=rtrim($area["prefix"],"/");
             $rules=$area["rules"];
             foreach ($rules as $rule){
                 $url=ltrim($rule["url"],"/");
                 if(empty($url)){
-                    $url=$prefix;
+                    $url=$areaName;
                 }else{
-                    $url=$prefix."/".$url;
+                    $url=$areaName."/".$url;
                 }
                 $url_mode="/".str_replace("/", "\/", $url)."/";
                 $matches=[];
@@ -246,16 +232,12 @@ class Route implements IRoute, IConfigurable
 
                     //属性
                     $this->m_areaName=$areaName;
-                    $this->m_areaPrefix=rtrim($prefix,"/");
                     $this->m_controllerName=$controller;
                     $this->m_actionName=$action;
                     $this->m_viewFile=$view;
                     $this->m_initParams=$_params;
-                    if($this->m_areaName==$this->m_rootAreaConfigKey){
+                    if($this->m_areaName==$this->m_rootAreaConfigKey || $this->m_areaName==""){
                         $this->m_areaName="/";
-                    }
-                    if($this->m_areaPrefix==""){
-                        $this->m_areaPrefix="/";
                     }
                     return;
                 }

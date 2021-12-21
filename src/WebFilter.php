@@ -25,18 +25,6 @@ class WebFilter implements IFilter,IConfigurable
     private $m_debug=false;
 
     /**
-     * 运行时缓存目录(此属性会传递给控制器)
-     * @var string
-     */
-    private $m_runtimeDir;
-
-    /**
-     * 视图引擎(此属性会传递给控制器)
-     * @var IView
-     */
-    private $m_viewEngine;
-
-    /**
      * 路由实例
      * @var IRoute
      */
@@ -59,27 +47,6 @@ class WebFilter implements IFilter,IConfigurable
      * @var IController
      */
     private $m_errorController;
-
-    /**
-     * 设置运行时缓存目录
-     * @param string $value
-     */
-    public function setRuntimeDir($value)
-    {
-        $this->m_runtimeDir=$value;
-    }
-
-    /**
-     * 设置运行时缓存目录
-     */
-    public function getRuntimeDir()
-    {
-        $dir=$this->m_runtimeDir;
-        if(empty($dir)){
-            $dir=$this->m_config->getBaseDir()."/_runtime";
-        }
-        return $dir;
-    }
 
     /**
      * 是否为调试模式
@@ -108,24 +75,6 @@ class WebFilter implements IFilter,IConfigurable
         $this->m_errorController=$value;
     }
 
-    /**
-     * 获取控制器工厂(如果当前没有配置,则创建一个内置的默认工厂)
-     * @return IControllerFactory
-     */
-    public function getControllerFactory()
-    {
-        //外部注入的控制器工厂
-        $factory=$this->m_controllerFactory;
-
-        //如果外部没有注入,从对象工厂创建默认的控制器工厂
-        if(!$factory){
-            $factory=$this->m_config->getObjectFactory()->createByClass(ControllerFactory::class);
-        }
-
-        //返回工厂实例
-        return $factory;
-    }
-
 
     /**
      * 注入路由实例
@@ -137,39 +86,12 @@ class WebFilter implements IFilter,IConfigurable
     }
 
     /**
-     * 获取路由实例
-     * @return IRoute
-     */
-    public function getRoute()
-    {
-        return $this->m_route;
-    }
-
-    /**
-     * 设置视图引擎
-     * @param IView $value
-     */
-    public function setViewEngine(IView $value)
-    {
-        $this->m_viewEngine=$value;
-    }
-
-    /**
      * 注入配置实例
      * @param IConfiguration $value
      */
     public function setConfiguration(IConfiguration $value)
     {
         $this->m_config=$value;
-    }
-
-    /**
-     * 获取配置实例
-     * @return IConfiguration
-     */
-    public function getConfiguration()
-    {
-        return $this->m_config;
     }
 
     /**
@@ -202,20 +124,21 @@ class WebFilter implements IFilter,IConfigurable
             }
 
             //控制器工厂
-            $controllerFactory=$this->getControllerFactory();
+            $controllerFactory=$this->m_controllerFactory;
+
+            //如果外部没有注入,从对象工厂创建默认的控制器工厂
+            if(!$controllerFactory){
+                $controllerFactory=$this->m_config->getObjectFactory()->createByClass(ControllerFactory::class);
+            }
 
             //创建控制器实例
             $controller = $controllerFactory->create($this->m_route->getControllerName());
 
             //注入控制器属性
             $controller->setContext($context);
-            $controller->setViewEngine($this->m_viewEngine);
-            $controller->setRuntimeDir($this->getRuntimeDir());
-            $controller->setDebug($this->m_debug);
 
             //注入控制器属性(路由)
             $controller->setAreaName($this->m_route->getAreaName());
-            $controller->setAreaPrefix($this->m_route->getAreaPrefix());
             $controller->setViewFile($this->m_route->getViewFile());
             $controller->setInitParams($this->m_route->getInitParams());
 

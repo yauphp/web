@@ -23,12 +23,6 @@ interface IController
     function setAreaName($value);
 
     /**
-     * 区域前缀
-     * @param string $value
-     */
-    function setAreaPrefix($value);
-
-    /**
      * 视图文件
      * @param string $value
      */
@@ -39,12 +33,6 @@ interface IController
      * @param array $value
      */
     function setInitParams($value);
-
-    /**
-     * 设置视图引擎
-     * @param IView $value
-     */
-    function setViewEngine(IView $value);
 
     /**
      * 获取区域名
@@ -61,12 +49,6 @@ interface IController
      * @param bool $value
      */
     function setDebug($value);
-
-    /**
-     * 设置运行时目录
-     * @param string $value
-     */
-    function setRuntimeDir($value);
 
     /**
      * 激活控制器方法
