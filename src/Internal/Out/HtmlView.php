@@ -105,7 +105,7 @@ class HtmlView extends View implements IOutput
     {
         //读取视图内容;注意模板或部件文件的更新不会自动清空缓存
         $viewFile=$this->searchView();
-        if(!file_exists($viewFile)){
+        if(empty($viewFile) || !file_exists($viewFile)){
             throw new \Exception("View file '".$this->m_viewFile."' does not exist.");
         }
         $view=file_get_contents($viewFile);

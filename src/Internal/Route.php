@@ -183,6 +183,9 @@ class Route implements IRoute, IConfigurable
             $uri=substr($uri, 0,strpos($uri, "?"));
         }
         foreach($config as $areaName=>$area){
+            if($areaName==$this->m_rootAreaConfigKey){
+                $areaName="";
+            }
             $namespace=trim($area["namespace"],"\\");
             $rules=$area["rules"];
             foreach ($rules as $rule){
