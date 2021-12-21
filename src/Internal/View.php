@@ -1,12 +1,12 @@
 <?php
 namespace Yauphp\Web\Internal;
 
-use swiftphp\config\IConfigurable;
-use swiftphp\config\IConfiguration;
-use swiftphp\http\Context;
-use swiftphp\web\IController;
-use swiftphp\io\File;
-use swiftphp\web\IView;
+use Yauphp\Web\IView;
+use Yauphp\Config\IConfigurable;
+use Yauphp\Http\Context;
+use Yauphp\Web\IController;
+use Yauphp\Common\IO\File;
+use Yauphp\Config\IConfiguration;
 
 /**
  * 视图实现抽像基类

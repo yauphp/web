@@ -1,16 +1,14 @@
 <?php
 namespace Yauphp\Web;
 
-use swiftphp\http\IFilter;
-use swiftphp\config\IConfigurable;
-use swiftphp\config\IConfiguration;
-use swiftphp\http\Context;
-use swiftphp\http\FilterChain;
-use swiftphp\web\IView;
-use swiftphp\http\IOutput;
-use swiftphp\web\internal\ControllerFactory;
-use swiftphp\web\internal\out\HtmlView;
-use swiftphp\web\internal\out\Base;
+use Yauphp\Http\IFilter;
+use Yauphp\Config\IConfigurable;
+use Yauphp\Config\IConfiguration;
+use Yauphp\Web\Internal\ControllerFactory;
+use Yauphp\Http\Context;
+use Yauphp\Http\FilterChain;
+use Yauphp\Web\Internal\Out\Base;
+use Yauphp\Web\Internal\Out\HtmlView;
 
 /**
  * MVC模型入口,Web过滤器
@@ -177,7 +175,7 @@ class WebFilter implements IFilter,IConfigurable
      * 执行过滤方法
      * @param Context $context
      */
-    public function filter(Context $context,FilterChain $chain)
+    public function filter(Context $context, FilterChain $chain)
     {
         //不应拦截过滤链
         //找不到控制器或激活不了方法时，转发到错误控制器的_404方法

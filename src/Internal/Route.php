@@ -1,10 +1,10 @@
 <?php
 namespace Yauphp\Web\Internal;
 
-use swiftphp\config\IConfigurable;
-use swiftphp\config\IConfiguration;
-use swiftphp\web\IRoute;
-use swiftphp\common\util\StringUtil;
+use Yauphp\Web\IRoute;
+use Yauphp\Config\IConfigurable;
+use Yauphp\Config\IConfiguration;
+use Yauphp\Common\Util\StringUtils;
 
 /**
  * 内置路由
@@ -12,7 +12,7 @@ use swiftphp\common\util\StringUtil;
  * @author Tomix
  *
  */
-class Route implements IRoute,IConfigurable
+class Route implements IRoute, IConfigurable
 {
     /**
      * 当前区域名称
@@ -233,7 +233,7 @@ class Route implements IRoute,IConfigurable
                         //}
                         //转为驼峰命名法,首字母大小写不变
                         $first=substr($match, 0,1);
-                        $_match=StringUtil::toHumpString($match);
+                        $_match=StringUtils::toHumpString($match);
                         $_match=$first.substr($_match, 1);
                         $srch="$".(string)$index;
                         $controller=str_replace($srch, ucfirst($_match), $controller);//控制器首字母大写

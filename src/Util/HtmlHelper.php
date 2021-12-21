@@ -1,8 +1,6 @@
 <?php
 namespace Yauphp\Web\Util;
 
-use swiftphp\common\util\ObjectUtil;
-
 /**
  * HTML相关帮助类
  * @author Tomix

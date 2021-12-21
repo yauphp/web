@@ -1,7 +1,7 @@
 <?php
 namespace Yauphp\Web\Internal\Tags;
 
-use swiftphp\web\ITag;
+use Yauphp\Web\ITag;
 
 /**
  * 标签基类

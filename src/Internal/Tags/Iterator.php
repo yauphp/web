@@ -1,8 +1,8 @@
 <?php
 namespace Yauphp\Web\Internal\Tags;
 
-use swiftphp\common\util\Convert;
-use swiftphp\web\util\HtmlHelper;
+use Yauphp\Web\Util\HtmlHelper;
+use Yauphp\Common\Util\ConvertUtils;
 
 /**
  * 遍历数据集合标签
@@ -244,7 +244,7 @@ class Iterator extends TagBase
                 //从数据源搜索
                 $values=[];
                 foreach ($this->dataSource as $item){
-                    if(Convert::getFieldValue($item, $this->parentKey,true)==$value){
+                    if(ConvertUtils::getFieldValue($item, $this->parentKey,true)==$value){
                         $values[]=$item;
                     }
                 }

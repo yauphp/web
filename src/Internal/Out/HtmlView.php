@@ -1,13 +1,13 @@
 <?php
 namespace Yauphp\Web\Internal\Out;
 
-use swiftphp\http\IOutput;
-use swiftphp\web\ITag;
-use swiftphp\web\internal\View;
-use swiftphp\common\util\StringUtil;
-use swiftphp\web\util\HtmlHelper;
-use swiftphp\common\util\ObjectUtil;
-use swiftphp\common\util\Convert;
+use Yauphp\Web\Internal\View;
+use Yauphp\Http\IOutput;
+use Yauphp\Common\Util\ObjectUtils;
+use Yauphp\Common\Util\ConvertUtils;
+use Yauphp\Web\Util\HtmlHelper;
+use Yauphp\Common\Util\StringUtils;
+use Yauphp\Web\ITag;
 
 /**
  * 视图引擎输出
@@ -26,7 +26,7 @@ class HtmlView extends View implements IOutput
      * 注册的标签库
      * @var array
      */
-    protected $m_taglibs=["php"=>"swiftphp\\web\\internal\\tags"];
+    protected $m_taglibs=["php"=>"Yauphp\\Web\\Internal\\Tags"];
 
     /**
      * 标签统计处理标记
@@ -109,7 +109,7 @@ class HtmlView extends View implements IOutput
             throw new \Exception("View file '".$this->m_viewFile."' does not exist.");
         }
         $view=file_get_contents($viewFile);
-        $view=StringUtil::removeUtf8Bom($view);
+        $view=StringUtils::removeUtf8Bom($view);
 
         //合并视图的模板与部件,预处理标签
         $md5Key=md5($view);
@@ -311,8 +311,8 @@ class HtmlView extends View implements IOutput
             }
 
             //注入属性
-            if(ObjectUtil::hasSetter($obj, $name)){
-                ObjectUtil::setPropertyValue($obj, $name, $value);
+            if(ObjectUtils::hasSetter($obj, $name)){
+                ObjectUtils::setPropertyValue($obj, $name, $value);
             }else{
                 $obj->addAttribute($name, $value);
             }
@@ -344,7 +344,7 @@ class HtmlView extends View implements IOutput
                     if(!is_null($value)){
                         if(is_object($value)){
                             //优先使用getter取值
-                            $val = Convert::getPropertyValue($value, $key);
+                            $val = ConvertUtils::getPropertyValue($value, $key);
 
                             //空值时,从属性取值
                             if(is_null($val)){
@@ -549,7 +549,7 @@ class HtmlView extends View implements IOutput
                 throw new \Exception("Template file '".$matches[1]."' does not exist");
             }
             $template=file_get_contents($templateFile);
-            $template=StringUtil::removeUtf8Bom($template);
+            $template=StringUtils::removeUtf8Bom($template);
 
             //合并母板里的部件
             $template=$this->loadParts($template, dirname($templateFile));
@@ -587,7 +587,7 @@ class HtmlView extends View implements IOutput
                 if(file_exists($tplFile) && is_file($tplFile)){
                     $tplHtml=file_get_contents($tplFile);
                 }
-                $tplHtml=StringUtil::removeUtf8Bom($tplHtml);
+                $tplHtml=StringUtils::removeUtf8Bom($tplHtml);
                 //$tplHtml=$this->applyView($tplHtml);
 
                 //递归合并部件模板的部件
@@ -700,16 +700,16 @@ class HtmlView extends View implements IOutput
         if(empty($this->m_viewFile)){
             //如果没有定义,则按{控制器}/{操作}搜索
             $searchFiles[]=$controllerBaseName."/".$actionName.".html";
-            $searchFiles[]=$controllerBaseName."/".StringUtil::toUnderlineString($actionName).".html";
+            $searchFiles[]=$controllerBaseName."/".StringUtils::toUnderlineString($actionName).".html";
             $searchFiles[]=lcfirst($controllerBaseName)."/".$actionName.".html";
-            $searchFiles[]=lcfirst($controllerBaseName)."/".StringUtil::toUnderlineString($actionName).".html";
-            $searchFiles[]=StringUtil::toUnderlineString($controllerBaseName)."/".$actionName.".html";
-            $searchFiles[]=StringUtil::toUnderlineString($controllerBaseName)."/".StringUtil::toUnderlineString($actionName).".html";
+            $searchFiles[]=lcfirst($controllerBaseName)."/".StringUtils::toUnderlineString($actionName).".html";
+            $searchFiles[]=StringUtils::toUnderlineString($controllerBaseName)."/".$actionName.".html";
+            $searchFiles[]=StringUtils::toUnderlineString($controllerBaseName)."/".StringUtils::toUnderlineString($actionName).".html";
         }else if(strpos($this->m_viewFile, "/")===false){
             //不包含目录时,添加{控制器}作为目录
             $searchFiles[]=$controllerBaseName."/".$this->m_viewFile;
             $searchFiles[]=lcfirst($controllerBaseName)."/".$this->m_viewFile;
-            $searchFiles[]=StringUtil::toUnderlineString($controllerBaseName)."/".$this->m_viewFile;
+            $searchFiles[]=StringUtils::toUnderlineString($controllerBaseName)."/".$this->m_viewFile;
         }else{
             $searchFiles[]=$this->m_viewFile;
         }
@@ -748,7 +748,7 @@ class HtmlView extends View implements IOutput
                 //对象或数组
                 if(is_object($value)){
                     //优先使用getter取值
-                    $val = Convert::getPropertyValue($value, $key);
+                    $val = ConvertUtils::getPropertyValue($value, $key);
 
                     //空值时,从属性取值
                     if(is_null($val) && property_exists($value, $key)){

@@ -1,18 +1,18 @@
 <?php
 namespace Yauphp\Web\Internal;
 
-use swiftphp\config\IConfigurable;
-use swiftphp\config\IConfiguration;
-use swiftphp\web\IControllerFactory;
-use swiftphp\common\util\ObjectUtil;
-use swiftphp\web\IController;
+use Yauphp\Web\IControllerFactory;
+use Yauphp\Config\IConfigurable;
+use Yauphp\Config\IConfiguration;
+use Yauphp\Common\Util\ObjectUtils;
+use Yauphp\Web\IController;
 
 /**
  * 内置控制器工厂
  * @author Tomix
  *
  */
-class ControllerFactory implements IControllerFactory,IConfigurable
+class ControllerFactory implements IControllerFactory, IConfigurable
 {
     /**
      * 配置实例
@@ -108,7 +108,7 @@ class ControllerFactory implements IControllerFactory,IConfigurable
         //注入初始化属性
         if(!empty($this->m_controllerProperties)){
             foreach ($this->m_controllerProperties as $name => $value){
-                ObjectUtil::setPropertyValue($controller, $name, $value);
+                ObjectUtils::setPropertyValue($controller, $name, $value);
             }
         }
 

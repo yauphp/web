@@ -1,7 +1,7 @@
 <?php
 namespace Yauphp\Web\Internal\Tags;
 
-use swiftphp\common\util\ObjectUtil;
+use Yauphp\Common\Util\ObjectUtils;
 
 /**
  *
@@ -78,8 +78,8 @@ abstract class ListItemTagBase extends TagBase
             }
         }else if(is_object($firstItem)){
             //一维对象数组
-            $valueGetter=ObjectUtil::getGetter($firstItem, $this->m_valueField);
-            $textGetter=ObjectUtil::getGetter($firstItem, $this->m_textField);
+            $valueGetter=ObjectUtils::getGetter($firstItem, $this->m_valueField);
+            $textGetter=ObjectUtils::getGetter($firstItem, $this->m_textField);
             foreach ($this->m_dataSource as $item){
                 $value=null;
                 if(!empty($valueGetter)){

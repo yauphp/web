@@ -1,7 +1,7 @@
 <?php
 namespace Yauphp\Web\Internal\Out;
 
-use swiftphp\http\IOutput;
+use Yauphp\Http\IOutput;
 
 /**
  * 原始数据输出代理

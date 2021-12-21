@@ -1,7 +1,7 @@
 <?php
 namespace Yauphp\Web\Internal\Tags;
 
-use swiftphp\web\util\HtmlHelper;
+use Yauphp\Web\Util\HtmlHelper;
 
 /**
  * 遍历数据集合标签

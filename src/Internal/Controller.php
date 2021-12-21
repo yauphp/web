@@ -2,26 +2,27 @@
 namespace Yauphp\Web\Internal;
 
 
-use swiftphp\config\IConfigurable;
-use swiftphp\config\IConfiguration;
-use swiftphp\http\Context;
-use swiftphp\web\IView;
-use swiftphp\io\File;
-use swiftphp\http\Request;
-use swiftphp\http\IOutput;
-use swiftphp\web\IController;
-use swiftphp\web\ParamMode;
-use swiftphp\web\internal\out\Redirect;
-use swiftphp\web\internal\out\Json;
-use swiftphp\web\internal\out\Jsonp;
-use swiftphp\web\internal\out\HtmlView;
+use Yauphp\Web\IController;
+use Yauphp\Config\IConfigurable;
+use Yauphp\Config\IConfiguration;
+use Yauphp\Http\Context;
+use Yauphp\Web\IView;
+use Yauphp\Web\ParamMode;
+use Yauphp\Web\Internal\Out\Redirect;
+use Yauphp\Web\Internal\Out\Json;
+use Yauphp\Web\Internal\Out\Jsonp;
+use Yauphp\Web\Internal\Out\HtmlView;
+use Yauphp\Http\IOutput;
+use Yauphp\Http\Response;
+use Yauphp\Http\Request;
+use Yauphp\Common\IO\File;
 
 /**
  * 控制器内置基本类型
  * @author Administrator
  *
  */
-class Controller implements IController,IConfigurable
+class Controller implements IController, IConfigurable
 {
     /**
      * 配置实例
@@ -382,13 +383,13 @@ class Controller implements IController,IConfigurable
      * @param string $callbackParamName
      * @return IOutput
      */
-    public function responseJsonp($data="",$callbackParamName="callback")
+    public function responseJsonp($data="", $callbackParamName="callback")
     {
         $callback="callback";
         if(!empty($callbackParamName)){
-            $callback=$this->getRequestParameter($callbackParamName,$callback);
+            $callback=$this->getRequestParameter($callbackParamName, $callback);
         }
-        $this->m_outputModel =new Jsonp($data,$callback);
+        $this->m_outputModel =new Jsonp($data, $callback);
         return $this->m_outputModel;
     }
 

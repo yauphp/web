@@ -1,7 +1,7 @@
 <?php
 namespace Yauphp\Web\Internal\Tags;
 
-use swiftphp\common\util\Convert;
+use Yauphp\Common\Util\ConvertUtils;
 
 /**
  * 下拉框列表控件
@@ -254,17 +254,17 @@ class Select extends ListItemTagBase
 	            $rootArray[2]=null;
 	        }
 
-	        $pid=Convert::getFieldValue($obj, $this->m_pidField,true);
+	        $pid=ConvertUtils::getFieldValue($obj, $this->m_pidField,true);
 	        if(in_array($pid,$rootArray)){
 	            //取得根的下一级子数据
 	            $item=[];
-	            $item["value"]=Convert::getFieldValue($obj, $this->m_valueField,true);
-	            $item["text"]=$this->m_prefix.Convert::getFieldValue($obj, $this->m_textField,true);
+	            $item["value"]=ConvertUtils::getFieldValue($obj, $this->m_valueField,true);
+	            $item["text"]=$this->m_prefix.ConvertUtils::getFieldValue($obj, $this->m_textField,true);
 	            $items[]=$item;
 	            //unset($data[$i]);
 
 	            //取所有子選項
-	            $id=Convert::getFieldValue($obj, $this->m_idField,true);
+	            $id=ConvertUtils::getFieldValue($obj, $this->m_idField,true);
 	            $this->buildChildItems($data,$id,1,$items);
 	        }
 	        $i++;
@@ -296,16 +296,16 @@ class Select extends ListItemTagBase
         $sep.=$this->m_prefix;
         $i=0;
         foreach($data as $obj){
-            $pidValue=Convert::getFieldValue($obj, $this->m_pidField,true);
+            $pidValue=ConvertUtils::getFieldValue($obj, $this->m_pidField,true);
             if($pidValue==$pid){
                 $item=[];
-                $item["value"]=Convert::getFieldValue($obj, $this->m_valueField,true);
-                $item["text"]=$sep.Convert::getFieldValue($obj, $this->m_textField,true);
+                $item["value"]=ConvertUtils::getFieldValue($obj, $this->m_valueField,true);
+                $item["text"]=$sep.ConvertUtils::getFieldValue($obj, $this->m_textField,true);
                 $items[]=$item;
                 //unset($data[$i]);
 
                 //取得所有子选项
-                $idValue=Convert::getFieldValue($obj, $this->m_idField,true);
+                $idValue=ConvertUtils::getFieldValue($obj, $this->m_idField,true);
                 $this->buildChildItems($data,$idValue,$level+1,$items);
             }
             $i++;

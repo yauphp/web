@@ -1,8 +1,7 @@
 <?php
 namespace Yauphp\Web;
 
-use swiftphp\http\Context;
-use swiftphp\web\IController;
+use Yauphp\Http\Context;
 
 /**
  * 视图接口
