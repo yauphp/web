@@ -362,7 +362,7 @@ class Controller implements IController, IConfigurable
      */
     public function getRequestParameter($name,$default="")
     {
-        $value=$this->getRequest()->getRequestParameter($name);
+        $value=$this->getRequest()->getParameter($name);
         if($value=="" && array_key_exists($name, $this->m_initParams)){
             $value=$this->m_initParams[$name];
         }
