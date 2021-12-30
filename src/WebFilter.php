@@ -138,7 +138,7 @@ class WebFilter implements IFilter,IConfigurable
             $controller->setContext($context);
 
             //注入控制器属性(路由)
-            $controller->setAreaName($this->m_route->getAreaName());
+            $controller->setContextPath($this->m_route->getContextPath());
             $controller->setViewFile($this->m_route->getViewFile());
             $controller->setInitParams($this->m_route->getInitParams());
 

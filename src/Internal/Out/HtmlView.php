@@ -688,8 +688,8 @@ class HtmlView extends View implements IOutput
             return $rootDir.$this->m_viewFile;
         }
 
-        //区域,控制器,操作
-        $areaDir=trim($this->m_controller->getAreaName(),"/");
+        //上下文路径,控制器,操作
+        $contextDir=trim($this->m_controller->getContextPath(),"/");
         $controllerBaseName=get_class($this->m_controller);
         $controllerBaseName=substr($controllerBaseName,strrpos($controllerBaseName, "\\")+1);
         $controllerBaseName=substr($controllerBaseName, 0,strpos($controllerBaseName, "Controller"));
@@ -716,8 +716,8 @@ class HtmlView extends View implements IOutput
 
         //搜索顺序
         foreach ($searchFiles as $file){
-            if(!empty($areaDir)){
-                $_file=$rootDir."/".$areaDir."/".$this->m_defaultViewDir."/".$file;
+            if(!empty($contextDir)){
+                $_file=$rootDir."/".$contextDir."/".$this->m_defaultViewDir."/".$file;
                 if(file_exists($_file)){
                     return $_file;
                 }

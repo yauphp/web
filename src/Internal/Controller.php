@@ -36,10 +36,10 @@ class Controller implements IController, IConfigurable
     private $m_context;
 
     /**
-     * 区域名称
+     * 上下文路径
      * @var string
      */
-    private $m_areaName;
+    private $m_contextPath;
 
     /**
      * 默认视图文件
@@ -135,14 +135,13 @@ class Controller implements IController, IConfigurable
         $this->m_context=$value;
     }
 
-
     /**
-     * 区域名称
+     * 上下文路径
      * @param string $value
      */
-    public function setAreaName($value)
+    public function setContextPath($value)
     {
-        $this->m_areaName=$value;
+        $this->m_contextPath=$value;
     }
 
 
@@ -174,12 +173,11 @@ class Controller implements IController, IConfigurable
     }
 
     /**
-     * 获取区域名
+     * 获取上下文路径
      */
-    public function getAreaName()
+    public function getContextPath()
     {
-        //return $this->m_areaName;
-        return $this->m_areaName=="/"?"":$this->m_areaName;
+        return $this->m_contextPath;
     }
 
     /**

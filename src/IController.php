@@ -17,10 +17,10 @@ interface IController
     function setContext(Context $value);
 
     /**
-     * 区域名称
+     * 上下文路径
      * @param string $value
      */
-    function setAreaName($value);
+    function setContextPath($value);
 
     /**
      * 视图文件
@@ -35,9 +35,9 @@ interface IController
     function setInitParams($value);
 
     /**
-     * 获取区域名
+     * 获取上下文路径
      */
-    function getAreaName();
+    function getContextPath();
 
     /**
      * 获取当前激活的操作名

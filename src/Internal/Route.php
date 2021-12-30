@@ -15,10 +15,10 @@ use Yauphp\Common\Util\StringUtils;
 class Route implements IRoute, IConfigurable
 {
     /**
-     * 当前区域名称
+     * 上下文路径
      * @var string
      */
-    private $m_areaName;
+    private $m_contextPath;
 
     /**
      * 当前控制器名称
@@ -55,12 +55,6 @@ class Route implements IRoute, IConfigurable
      * @var string
      */
     private $m_cfgSection="route";
-
-    /**
-     * 根区域配置键值
-     * @var string
-     */
-    private $m_rootAreaConfigKey="ROOT";
 
     /**
      * 默认控制器名
@@ -133,11 +127,11 @@ class Route implements IRoute, IConfigurable
     //public function
 
     /**
-     * 区域名称
+     * 上下文路径
      */
-    public function getAreaName()
+    public function getContextPath()
     {
-        return $this->m_areaName;
+        return $this->m_contextPath;
     }
 
     /**
@@ -182,18 +176,19 @@ class Route implements IRoute, IConfigurable
         if(strpos($uri, "?")>0){
             $uri=substr($uri, 0,strpos($uri, "?"));
         }
-        foreach($config as $areaName=>$area){
-            if($areaName==$this->m_rootAreaConfigKey){
-                $areaName="";
+        foreach($config as $contextPath=>$context){
+            $_contextPath=$contextPath;
+            if($_contextPath=="/"){
+                $_contextPath="";
             }
-            $namespace=trim($area["namespace"],"\\");
-            $rules=$area["rules"];
+            $namespace=trim($context["namespace"],"\\");
+            $rules=$context["rules"];
             foreach ($rules as $rule){
                 $url=ltrim($rule["url"],"/");
                 if(empty($url)){
-                    $url=$areaName;
+                    $url=$_contextPath;
                 }else{
-                    $url=$areaName."/".$url;
+                    $url=$_contextPath."/".$url;
                 }
                 $url_mode="/".str_replace("/", "\/", $url)."/";
                 $matches=[];
@@ -234,13 +229,13 @@ class Route implements IRoute, IConfigurable
                     }
 
                     //属性
-                    $this->m_areaName=$areaName;
+                    $this->m_contextPath=$contextPath;
                     $this->m_controllerName=$controller;
                     $this->m_actionName=$action;
                     $this->m_viewFile=$view;
                     $this->m_initParams=$_params;
-                    if($this->m_areaName==$this->m_rootAreaConfigKey || $this->m_areaName==""){
-                        $this->m_areaName="/";
+                    if($this->m_contextPath==""){
+                        $this->m_contextPath="/";
                     }
                     return;
                 }

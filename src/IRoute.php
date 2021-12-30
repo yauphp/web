@@ -9,9 +9,9 @@ namespace Yauphp\Web;
 interface IRoute
 {
     /**
-     * 区域名称
+     * 上下文路径
      */
-    function getAreaName();
+    function getContextPath();
 
     /**
      * 控制器名称
