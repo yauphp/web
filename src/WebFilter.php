@@ -10,6 +10,7 @@ use Yauphp\Http\FilterChain;
 use Yauphp\Web\Internal\Out\Base;
 use Yauphp\Web\Internal\Out\HtmlView;
 use Yauphp\Http\IOutput;
+use Yauphp\Logger\ILogger;
 
 /**
  * MVC模型入口,Web过滤器
@@ -49,12 +50,26 @@ class WebFilter implements IFilter,IConfigurable
     private $m_errorController;
 
     /**
+     * 日志记录器
+     * @var ILogger
+     */
+    private $m_logger;
+
+    /**
      * 是否为调试模式
      * @param bool $value
      */
     public function setDebug($value)
     {
         $this->m_debug=$value;
+    }
+
+    /**
+     * 注入日志记录器
+     * @param ILogger $value
+     */
+    public function setLogger(ILogger $value){
+        $this->m_logger=$value;
     }
 
     /**
@@ -155,10 +170,16 @@ class WebFilter implements IFilter,IConfigurable
             //调试状态下,直接向外抛出异常;否则调用错误控制器输出404
             if(!$this->m_debug && !is_null($this->m_errorController)){
 
+                //logs
+                if(!empty($this->m_logger)){
+                    try {
+                        $this->m_logger->logException($ex,"runtime");
+                    }catch(\Exception $ee){}
+                }
+
                 //注入控制器属性
                 $this->m_errorController->setContext($context);
                 $this->m_errorController->setViewEngine($this->m_viewEngine);
-                $this->m_errorController->setRuntimeDir($this->getRuntimeDir());
                 $this->m_errorController->setDebug($this->m_debug);
                 try{
                     //激活404方法
