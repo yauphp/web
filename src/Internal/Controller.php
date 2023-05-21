@@ -149,7 +149,7 @@ class Controller implements IController, IConfigurable
      * @param string $value
      */
     public function setContextPathAlias($value){
-        $this->m_contextPath=$value;
+        $this->m_contextPathAlias=$value;
     }
 
 
@@ -188,7 +188,7 @@ class Controller implements IController, IConfigurable
      * 获取上下文路径(别名)
      */
     public function getContextPathAlias(){
-        return $this->m_contextPath;
+        return $this->m_contextPathAlias;
     }
 
     /**
