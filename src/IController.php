@@ -23,6 +23,11 @@ interface IController
     function setContextPath($value);
 
     /**
+     * 上下文路径(别名)
+     */
+    function setContextPathAlias($value);
+
+    /**
      * 视图文件
      * @param string $value
      */
@@ -38,6 +43,11 @@ interface IController
      * 获取上下文路径
      */
     function getContextPath();
+
+    /**
+     * 获取上下文路径(别名)
+     */
+    function getContextPathAlias();
 
     /**
      * 获取当前激活的操作名

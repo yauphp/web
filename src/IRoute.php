@@ -14,6 +14,11 @@ interface IRoute
     function getContextPath();
 
     /**
+     * 上下文路径(别名)
+     */
+    function getContextPathAlias();
+
+    /**
      * 控制器名称
      */
     function getControllerName();

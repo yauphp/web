@@ -30,8 +30,7 @@ class ControllerFactory implements IControllerFactory, IConfigurable
      * 注入配置实例
      * @param IConfiguration $value
      */
-    public function setConfiguration(IConfiguration $value)
-    {
+    public function setConfiguration(IConfiguration $value){
         $this->m_config=$value;
     }
 
@@ -39,8 +38,7 @@ class ControllerFactory implements IControllerFactory, IConfigurable
      * 控制器初始化属性(由配置文件配置的对象不会被注入)
      * @param array $value
      */
-    public function setControllerProperties(array $value)
-    {
+    public function setControllerProperties(array $value){
         $this->m_controllerProperties=$value;
     }
 
@@ -49,8 +47,7 @@ class ControllerFactory implements IControllerFactory, IConfigurable
      * @param $controllerName 控制器名
      * @return IController 控制器实例
      */
-    public function create($controllerName)
-    {
+    public function create($controllerName){
         //控制器类型名
         $controllerClass=$controllerName."Controller";
         return $this->createByClass($controllerClass);
@@ -61,8 +58,7 @@ class ControllerFactory implements IControllerFactory, IConfigurable
      * @param $controllerClass 控制器类名
      * @return IController,控制器实例
      */
-    public function createByClass($controllerClass)
-    {
+    public function createByClass($controllerClass){
         //控制器实例
         $controller=null;
 
@@ -84,7 +80,6 @@ class ControllerFactory implements IControllerFactory, IConfigurable
             if(!class_exists($controllerClass)){
                 throw new \Exception("'".$controllerClass."' controller does not exists");
             }
-
             //从类型名称创建
             $controller = new $controllerClass();
         }
@@ -103,8 +98,7 @@ class ControllerFactory implements IControllerFactory, IConfigurable
      * 注入控制器配置
      * @param unknown $obj
      */
-    private function configController($controller)
-    {
+    private function configController($controller){
         //注入初始化属性
         if(!empty($this->m_controllerProperties)){
             foreach ($this->m_controllerProperties as $name => $value){

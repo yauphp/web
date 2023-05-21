@@ -41,6 +41,12 @@ class Controller implements IController, IConfigurable
      */
     private $m_contextPath;
 
+        /**
+     * 上下文路径(别名)
+     * @var string
+     */
+    private $m_contextPathAlias;
+
     /**
      * 默认视图文件
      * @var string
@@ -93,8 +99,7 @@ class Controller implements IController, IConfigurable
      * 是否为调试模式
      * @param bool $value
      */
-    public function setDebug($value)
-    {
+    public function setDebug($value){
         $this->m_debug=$value;
     }
 
@@ -102,8 +107,7 @@ class Controller implements IController, IConfigurable
      * 是否为调试模式
      * @return string
      */
-    public function getDebug()
-    {
+    public function getDebug(){
         return $this->m_debug;
     }
 
@@ -112,17 +116,15 @@ class Controller implements IController, IConfigurable
      * 注入配置实例
      * @param IConfiguration $value
      */
-    public function setConfiguration(IConfiguration $value)
-    {
+    public function setConfiguration(IConfiguration $value){
         $this->m_config=$value;
     }
 
     /**
      * 获取配置实例
-     * @return \swiftphp\config\IConfiguration
+     * @return \Yauphp\Config\IConfiguration
      */
-    public function getConfiguration()
-    {
+    public function getConfiguration(){
         return $this->m_config;
     }
 
@@ -130,8 +132,7 @@ class Controller implements IController, IConfigurable
      *  上下文
      * @param Context $value
      */
-    public function setContext(Context $value)
-    {
+    public function setContext(Context $value){
         $this->m_context=$value;
     }
 
@@ -139,8 +140,15 @@ class Controller implements IController, IConfigurable
      * 上下文路径
      * @param string $value
      */
-    public function setContextPath($value)
-    {
+    public function setContextPath($value){
+        $this->m_contextPath=$value;
+    }
+
+    /**
+     * 上下文路径(别名)
+     * @param string $value
+     */
+    public function setContextPathAlias($value){
         $this->m_contextPath=$value;
     }
 
@@ -149,8 +157,7 @@ class Controller implements IController, IConfigurable
      * 视图文件
      * @param string $value
      */
-    public function setViewFile($value)
-    {
+    public function setViewFile($value){
         $this->m_viewFile=$value;
     }
 
@@ -158,8 +165,7 @@ class Controller implements IController, IConfigurable
      * 初始化参数
      * @param array $value
      */
-    public function setInitParams($value)
-    {
+    public function setInitParams($value){
         $this->m_initParams=$value;
     }
 
@@ -167,24 +173,28 @@ class Controller implements IController, IConfigurable
      * 设置视图引擎
      * @param IView $value
      */
-    public function setViewEngine(IView $value)
-    {
+    public function setViewEngine(IView $value){
         $this->m_viewEngine=$value;
     }
 
     /**
      * 获取上下文路径
      */
-    public function getContextPath()
-    {
+    public function getContextPath(){
+        return $this->m_contextPath;
+    }
+
+        /**
+     * 获取上下文路径(别名)
+     */
+    public function getContextPathAlias(){
         return $this->m_contextPath;
     }
 
     /**
      * 获取当前激活的操作名
      */
-    public function getActionName()
-    {
+    public function getActionName(){
         return $this->m_action;
     }
 
@@ -192,16 +202,14 @@ class Controller implements IController, IConfigurable
      * 构造器
      */
     public function __construct()
-    {
-
+    {        
     }
 
     /**
      * 激活控制器方法
      * @param string $action
      */
-    function invoke($action)
-    {
+    function invoke($action){
         //请求参数映射到属性
         foreach ($this->m_initParams as $name=>$value){
             if(property_exists($this, $name)){
@@ -241,8 +249,7 @@ class Controller implements IController, IConfigurable
      * @param $value 参数值
      * @return void
      */
-    public function addParameter($name, $value, $paramMode=0)
-    {
+    public function addParameter($name, $value, $paramMode=0){
         if($paramMode==ParamMode::$view){
             $this->m_viewParams[$name]=$value;
         }else if($paramMode==ParamMode::$tag){
@@ -257,8 +264,7 @@ class Controller implements IController, IConfigurable
      * 当前请求是否为POST
      * @return boolean
      */
-    public function isPost()
-    {
+    public function isPost(){
         return strtoupper($this->getRequest()->method)=="POST";
     }
 
@@ -267,8 +273,7 @@ class Controller implements IController, IConfigurable
      * @param unknown $name
      * @param string $value
      */
-    public function addHeader($name,$value="")
-    {
+    public function addHeader($name,$value=""){
         $this->getResponse()->addHeader($name,$value);
     }
 
@@ -276,8 +281,7 @@ class Controller implements IController, IConfigurable
      * 设置响应码
      * @param number $value
      */
-    public function setResponseCode($value=200)
-    {
+    public function setResponseCode($value=200){
         $this->getResponse()->setCode($value);
     }
 
@@ -286,8 +290,7 @@ class Controller implements IController, IConfigurable
      * @param string $viewFile
      * @return string
      */
-    public function getView($viewFile="")
-    {
+    public function getView($viewFile=""){
         $viewEngine=$this->getViewEngine(!empty($viewFile) ? $viewFile : $this->m_viewFile);
         return $viewEngine->getContent();
     }
@@ -297,8 +300,7 @@ class Controller implements IController, IConfigurable
      * @param string $viewFile
      * @return IOutput
      */
-    public function view($viewFile="")
-    {
+    public function view($viewFile=""){
         $this->m_outputModel=$this->getViewEngine(!empty($viewFile) ? $viewFile : $this->m_viewFile);
         return $this->m_outputModel;
     }
@@ -308,8 +310,7 @@ class Controller implements IController, IConfigurable
      * @param string $url
      * @return IOutput
      */
-    public function redirect($url)
-    {
+    public function redirect($url){
         $this->m_outputModel =new Redirect($url);
         return $this->m_outputModel;
     }
@@ -318,8 +319,7 @@ class Controller implements IController, IConfigurable
      * 301重定向
      * @return IOutput
      */
-    public function redirect301($url)
-    {
+    public function redirect301($url){
         $this->getResponse()->addHeader("HTTP/1.1 301 Moved Permanently");
         $this->m_outputModel =new Redirect($url);
         return $this->m_outputModel;
@@ -330,8 +330,7 @@ class Controller implements IController, IConfigurable
      * @param mixed $data
      * @return IOutput
      */
-    public function responseJson($data="")
-    {
+    public function responseJson($data=""){
         $this->m_outputModel =new Json($data);
         return $this->m_outputModel;
     }
@@ -342,8 +341,7 @@ class Controller implements IController, IConfigurable
      * @param string $callbackParamName
      * @return IOutput
      */
-    public function responseJsonp($data="", $callbackParamName="callback")
-    {
+    public function responseJsonp($data="", $callbackParamName="callback"){
         $callback="callback";
         if(!empty($callbackParamName)){
             $callback=$this->getRequestParameter($callbackParamName, $callback);
@@ -358,8 +356,7 @@ class Controller implements IController, IConfigurable
      * @param string $default
      * @return Ambigous <unknown, string>
      */
-    public function getRequestParameter($name,$default="")
-    {
+    public function getRequestParameter($name,$default=""){
         $value=$this->getRequest()->getParameter($name);
         if($value=="" && array_key_exists($name, $this->m_initParams)){
             $value=$this->m_initParams[$name];
@@ -374,8 +371,7 @@ class Controller implements IController, IConfigurable
      * 获取响应对象
      * @return Response
      */
-    protected function getResponse()
-    {
+    protected function getResponse(){
         return $this->m_context->getResponse();
     }
 
@@ -383,16 +379,14 @@ class Controller implements IController, IConfigurable
      * 获取请求对象
      * @return Request
      */
-    protected function getRequest()
-    {
+    protected function getRequest(){
         return $this->m_context->getRequest();
     }
 
     /**
      * 获取view引擎实例
      */
-    protected function getViewEngine($viewFile="")
-    {
+    protected function getViewEngine($viewFile=""){
         if(empty($this->m_viewEngine)){
             $this->m_viewEngine=new HtmlView();
             $this->m_viewEngine->setConfiguration($this->m_config);

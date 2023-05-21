@@ -59,8 +59,7 @@ class WebFilter implements IFilter,IConfigurable
      * 是否为调试模式
      * @param bool $value
      */
-    public function setDebug($value)
-    {
+    public function setDebug($value){
         $this->m_debug=$value;
     }
 
@@ -76,8 +75,7 @@ class WebFilter implements IFilter,IConfigurable
      * 控制器工厂实例
      * @param IControllerFactory $value
      */
-    public function setControllerFactory(IControllerFactory $value)
-    {
+    public function setControllerFactory(IControllerFactory $value){
         $this->m_controllerFactory=$value;
     }
 
@@ -85,8 +83,7 @@ class WebFilter implements IFilter,IConfigurable
      * 设置错误控制器
      * @param IController $value
      */
-    public function setErrorController(IController $value)
-    {
+    public function setErrorController(IController $value){
         $this->m_errorController=$value;
     }
 
@@ -95,8 +92,7 @@ class WebFilter implements IFilter,IConfigurable
      * 注入路由实例
      * @param IRoute $value
      */
-    public function setRoute(IRoute $value)
-    {
+    public function setRoute(IRoute $value){
         $this->m_route=$value;
     }
 
@@ -104,8 +100,7 @@ class WebFilter implements IFilter,IConfigurable
      * 注入配置实例
      * @param IConfiguration $value
      */
-    public function setConfiguration(IConfiguration $value)
-    {
+    public function setConfiguration(IConfiguration $value){
         $this->m_config=$value;
     }
 
@@ -113,8 +108,7 @@ class WebFilter implements IFilter,IConfigurable
      * 执行过滤方法
      * @param Context $context
      */
-    public function filter(Context $context, FilterChain $chain)
-    {
+    public function filter(Context $context, FilterChain $chain){
         //不应拦截过滤链
         //找不到控制器或激活不了方法时，转发到错误控制器的_404方法
         //找不到错误控制器或激活不了_404方法时,直接输出错误模板
@@ -126,12 +120,6 @@ class WebFilter implements IFilter,IConfigurable
             //         echo "action:".$this->getRoute()->getActionName()."\r\n";
             //         echo "view:".$this->getRoute()->getViewFile()."\r\n";
             //         var_dump($this->getRoute()->getInitParams());
-
-            //视图引擎
-            if(empty($this->m_viewEngine)){
-                $this->m_viewEngine=new HtmlView();
-                $this->m_viewEngine->setConfiguration($this->m_config);
-            }
 
             //路由
             if(empty($this->m_route)){
@@ -154,6 +142,7 @@ class WebFilter implements IFilter,IConfigurable
 
             //注入控制器属性(路由)
             $controller->setContextPath($this->m_route->getContextPath());
+            $controller->setContextPathAlias($this->m_route->getContextPathAlias());
             $controller->setViewFile($this->m_route->getViewFile());
             $controller->setInitParams($this->m_route->getInitParams());
 
@@ -179,7 +168,6 @@ class WebFilter implements IFilter,IConfigurable
 
                 //注入控制器属性
                 $this->m_errorController->setContext($context);
-                $this->m_errorController->setViewEngine($this->m_viewEngine);
                 $this->m_errorController->setDebug($this->m_debug);
                 try{
                     //激活404方法
