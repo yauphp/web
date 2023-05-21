@@ -21,6 +21,11 @@ class Route implements IRoute, IConfigurable
     private $m_contextPath;
 
     /**
+     * 上下文路径别名
+     */
+    private $m_contextPathAlias;
+
+    /**
      * 当前控制器名称
      * @var string
      */
@@ -51,7 +56,7 @@ class Route implements IRoute, IConfigurable
     private $m_config=null;
 
     /**
-     * 配置节
+     * 配置节点名
      * @var string
      */
     private $m_cfgSection="route";
@@ -72,26 +77,15 @@ class Route implements IRoute, IConfigurable
      * 路由配置节点名
      * @param string $value
      */
-    public function setConfigSection($value)
-    {
+    public function setConfigSection($value){
         $this->m_cfgSection=$value;
-    }
-
-    /**
-     * 根区域配置键值
-     * @param string $value
-     */
-    public function setRootAreaConfigKey($value)
-    {
-        $this->m_rootAreaConfigKey=$value;
     }
 
     /**
      * 默认控制器名
      * @param string $value
      */
-    public function setDefaultControllerName($value)
-    {
+    public function setDefaultControllerName($value){
         $this->m_defaultActionName=$value;
     }
 
@@ -99,15 +93,14 @@ class Route implements IRoute, IConfigurable
      * 默认操作名
      * @param string $value
      */
-    public function setDefaultActionName($value)
-    {
+    public function setDefaultActionName($value){
         $this->m_defaultActionName=$value;
     }
 
     /**
-     * 注入配置
+     * 
      * {@inheritDoc}
-     * @see \swiftphp\config\IConfigurable::setConfiguration()
+     * @see \Yauphp\Config\IConfigurable::setConfiguration()
      */
     public function setConfiguration(IConfiguration $value)
     {
@@ -117,82 +110,91 @@ class Route implements IRoute, IConfigurable
 
     /**
      * 获取配置实例
-     * @return \swiftphp\config\IConfiguration
+     * @return \Yauphp\Config\IConfiguration
      */
-    public function getConfiguration()
-    {
+    public function getConfiguration() : \Yauphp\Config\IConfiguration{
         return $this->m_config;
     }
-
-    //public function
 
     /**
      * 上下文路径
      */
-    public function getContextPath()
-    {
+    public function getContextPath(){
         return $this->m_contextPath;
+    }
+
+    /**
+     * 上下文路径(别名)
+     */
+    public function getContextPathAlias(){
+        return $this->m_contextPathAlias;
     }
 
     /**
      * 控制器名称
      */
-    public function getControllerName()
-    {
+    public function getControllerName(){
         return $this->m_controllerName;
     }
 
     /**
      * 操作名称
      */
-    public function getActionName()
-    {
+    public function getActionName(){
         return $this->m_actionName;
     }
 
     /**
      * 视图文件
      */
-    public function getViewFile()
-    {
+    public function getViewFile(){
         return $this->m_viewFile;
     }
 
     /**
      * 初始化参数
      */
-    public function getInitParams()
-    {
+    public function getInitParams(){
         return $this->m_initParams;
     }
 
     /**
      * 加载
      */
-    private function load()
-    {
+    private function load() {
         $config=$this->getConfiguration()->getConfigValues($this->m_cfgSection);
         $uri=$_SERVER["REQUEST_URI"];
         if(strpos($uri, "?")>0){
             $uri=substr($uri, 0,strpos($uri, "?"));
         }
         foreach($config as $contextPath=>$context){
-            $_contextPath=$contextPath;
-            if($_contextPath=="/"){
-                $_contextPath="";
-            }
+            $_contextPath=$contextPath != "/" ? $contextPath : "";
+            $alias = array_key_exists("alias",$context)?$context["alias"]:"";
+            $_alias = $alias != "/" ? $alias : "";
             $namespace=trim($context["namespace"],"\\");
             $rules=$context["rules"];
             foreach ($rules as $rule){
                 $url=ltrim($rule["url"],"/");
+                $urlAlias="";
                 if(empty($url)){
+                    if(!empty($_alias)){
+                        $urlAlias=$_alias;
+                    }
                     $url=$_contextPath;
                 }else{
+                    if(!empty($_alias)){
+                        $urlAlias=$_alias."/".$url;
+                    }
                     $url=$_contextPath."/".$url;
                 }
                 $url_mode="/".str_replace("/", "\/", $url)."/";
                 $matches=[];
-                if(preg_match($url_mode,$uri,$matches)){
+                $isMatch=preg_match($url_mode,$uri,$matches);
+                if(!$isMatch && !empty($urlAlias)){
+                    $url_mode="/".str_replace("/", "\/", $urlAlias)."/";
+                    $isMatch=preg_match($url_mode,$uri,$matches);
+                }
+                if($isMatch){
                     //controller
                     $_controller=$this->m_defaultControllerName;
                     if(array_key_exists("controller", $rule)){
@@ -230,6 +232,7 @@ class Route implements IRoute, IConfigurable
 
                     //属性
                     $this->m_contextPath=$contextPath;
+                    $this->m_contextPathAlias=$alias;
                     $this->m_controllerName=$controller;
                     $this->m_actionName=$action;
                     $this->m_viewFile=$view;
