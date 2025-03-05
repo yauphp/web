@@ -11,9 +11,9 @@
 	],
 	"require" : {
 		"php" : ">=8.0.0",
-		"yauphp/core" : "~2.0",
-		"yauphp/config" : "~2.0",
-		"yauphp/http" : "~2.0"
+		"yauphp/core" : "~2.5",
+		"yauphp/config" : "~2.5",
+		"yauphp/http" : "~2.5"
 	},
 	"autoload" : {
 		"psr-4" : {
